@@ -17,7 +17,6 @@ import ru.kata.spring.boot_security.demo.userMapper.UserMapper;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 mapRolesToAuthorities(user.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 }

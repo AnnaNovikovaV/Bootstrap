@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Entity
@@ -43,12 +44,12 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public User() {
     }
 
-    public User(Integer id, String username, int age, String email, String password, Set<Role> roles, String lastname) {
+    public User(Integer id, String username, int age, String email, String password, List<Role> roles, String lastname) {
         this.id = id;
         this.age = age;
         this.username = username;
@@ -126,11 +127,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -148,5 +149,18 @@ public class User implements UserDetails {
                 .sorted()
                 .collect(Collectors.toList());
         return String.join(" ", list);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }
