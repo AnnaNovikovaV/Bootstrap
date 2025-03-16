@@ -18,6 +18,7 @@ public class UserMapper {
 
     public User toUser(User entity, User updatedUser) {
         entity.setUsername(updatedUser.getUsername());
+        entity.setLastname(updatedUser.getLastname());
         entity.setAge(updatedUser.getAge());
         entity.setEmail(updatedUser.getEmail());
         if (!StringUtils.isEmpty(updatedUser.getPassword())) {
@@ -25,6 +26,7 @@ public class UserMapper {
                 entity.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             }
         }
+        entity.setRoles(updatedUser.getRoles());
         return entity;
     }
 }

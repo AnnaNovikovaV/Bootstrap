@@ -161,11 +161,11 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="role_select">Roles</label>
-                                                    <select id="role_select" name="roles" multiple="multiple"
+                                                    <select id="role_select" name="roles[]" multiple="multiple"
                                                             class="form-select" size="2" aria-label="size 2 select"
                                                             required>
                                                         <option th:each="role:${roles}"
-                                                                th:value="${role.name}"
+                                                                th:value="${role.id}"
                                                                 th:text="${role.name}">
                                                         </option>
                                                     </select>
@@ -275,12 +275,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="role_edit" class="label">Roles</label>
-                            <select id="role_edit" name="roles" multiple class="form-select" size="2"
+                            <select id="role_edit" name="roles[]" multiple class="form-select" size="2"
                                     aria-label="size 2 select"
                                     required>
                                 <option th:each="role:${roles}"
-                                        th:value="${role.name}"
-                                        th:selected="${userEdit.getRoles().contains(role)}"
+                                        th:value="${role.id}"
                                         th:text="${role.name}">
                                 </option>
                             </select>

@@ -2,23 +2,16 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Controller
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public class AdminController {
 
     UserService userService;
@@ -35,22 +28,12 @@ public class AdminController {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("newUser", new User());
-        model.addAttribute("generalUser", userService.getUserByUsername(principal.getName()));
         model.addAttribute("user", userService.getUserByUsername(principal.getName()));
         return "admin";
     }
 
-//    @PostMapping("/new")
-//    public String newPerson(@ModelAttribute("newUser") User user) {
-//        return "admin";
-//    }
-
     @PostMapping("/create")
-    public String create(@ModelAttribute("newUser") User user,@RequestParam("roles") List<String> roleNames) {
-        List<Role> roles = roleNames.stream()
-                .map(roleService::getRoleByName)
-                .collect(Collectors.toList());
-        user.setRoles(roles);
+    public String create(@ModelAttribute("newUser") User user) {
         userService.save(user);
         return "redirect:/admin";
     }
@@ -62,13 +45,8 @@ public class AdminController {
     }
 
     @PatchMapping("/edit/update")
-    public String update(@ModelAttribute("user") User user, @RequestParam("roles") List<String> roleNames) {
-        List<Role> roles = roleNames.stream()
-                .map(roleService::getRoleByName)
-                .collect(Collectors.toList());
-        user.setRoles(roles);
-
-        userService.update(user);
+    public String update(@ModelAttribute("user") User userUpdate) {
+        userService.update(userUpdate);
         return "redirect:/admin";
     }
 

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping
@@ -23,7 +22,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String getUserInfo(Model model, Principal principal) {
-        model.addAttribute("users", List.of(userService.getUserByUsername(principal.getName())));
+        model.addAttribute("user", userService.getUserByUsername(principal.getName()));
 
         return "user";
     }

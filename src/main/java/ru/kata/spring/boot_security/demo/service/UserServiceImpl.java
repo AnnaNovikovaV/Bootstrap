@@ -41,8 +41,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public User getUserByUsername(String username) {
-       return repository.findByUsername(username);
+        return repository.findByUsername(username);
     }
+
     public User findForEdit(int id) {
         User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         user.setPassword("");
@@ -72,9 +73,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        User user = repository.findByUsername(username);
+        User user = repository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }

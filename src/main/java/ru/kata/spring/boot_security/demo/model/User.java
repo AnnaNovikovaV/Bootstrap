@@ -1,15 +1,11 @@
 package ru.kata.spring.boot_security.demo.model;
 
-
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Entity
@@ -145,7 +141,7 @@ public class User implements UserDetails {
 
     public String getStringRoles() {
         List<String> list = roles.stream()
-                .map(r->r.toString())
+                .map(r -> r.toString())
                 .sorted()
                 .collect(Collectors.toList());
         return String.join(" ", list);
