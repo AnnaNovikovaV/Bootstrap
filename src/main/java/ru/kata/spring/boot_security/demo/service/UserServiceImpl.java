@@ -90,22 +90,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
     @PostConstruct
     public void initDefaultUsers() {
-        if (repository.count() == 0) {
-            User admin = new User();
-            admin.setUsername("admin");
-            admin.setLastname("admin");
-            admin.setAge(30);
-            admin.setEmail("admin@example.com");
-            admin.setPassword(passwordEncoder.encode("admin123"));
-            admin.setRoles(List.of(roleService.getRoleByName("ROLE_ADMIN")));
+        Role userRole = new Role();
+        userRole.setName("ROLE_USER");
+        Role adminRole = new Role();
+        adminRole.setName("ROLE_ADMIN");
+        roleService.saveAll(List.of(userRole, adminRole));
 
-            User user = new User();
-            user.setUsername("user");
-            user.setLastname("user");
-            user.setAge(20);
-            user.setEmail("user@example.com");
-            user.setPassword(passwordEncoder.encode("user123"));
-            user.setRoles(List.of(roleService.getRoleByName("ROLE_USER")));
+        User admin = new User();
+        admin.setUsername("admin");
+        admin.setLastname("admin");
+        admin.setAge(30);
+        admin.setEmail("admin@example.com");
+        admin.setPassword(passwordEncoder.encode("admin123"));
+        admin.setRoles(List.of(adminRole));
+
+        User user = new User();
+        user.setUsername("user");
+        user.setLastname("user");
+        user.setAge(20);
+        user.setEmail("user@example.com");
+        user.setPassword(passwordEncoder.encode("user123"));
+        user.setRoles(List.of(userRole));
 
             repository.saveAll(List.of(admin, user));
         }
