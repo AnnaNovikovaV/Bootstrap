@@ -2,8 +2,6 @@ package ru.kata.spring.boot_security.demo.service;
 
 
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,9 +14,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.userMapper.UserMapper;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -75,19 +71,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//
-//        User user = repository.findByEmail(email);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-//                mapRolesToAuthorities(user.getRoles()));
-        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        User user = repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return user;
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-    }
     @PostConstruct
     public void initDefaultUsers() {
         Role userRole = new Role();
@@ -115,4 +103,3 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             repository.saveAll(List.of(admin, user));
         }
     }
-}
