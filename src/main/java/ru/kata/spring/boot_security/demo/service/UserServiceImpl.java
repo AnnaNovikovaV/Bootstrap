@@ -48,8 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public User findById(int id) {
-        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        return user;
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Transactional
@@ -60,6 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     public void update(User updatedUser) {
+
         User user = findById(updatedUser.getId());
         repository.save(mapper.toUser(user, updatedUser));
     }
@@ -71,9 +71,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        User user = repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return user;
+        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @PostConstruct
@@ -90,7 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         admin.setAge(30);
         admin.setEmail("admin@example.com");
         admin.setPassword(passwordEncoder.encode("admin123"));
-        admin.setRoles(List.of(adminRole));
+        admin.setRoles(List.of(adminRole, userRole));
 
         User user = new User();
         user.setUsername("user");
